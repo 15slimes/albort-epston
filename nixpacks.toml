@@ -2,7 +2,11 @@
 nixPkgs = ["nodejs_22", "ffmpeg", "python3"]
 
 [phases.install]
-cmds = ["ln -s $(which python3) /usr/local/bin/python", "npm install"]
+cmds = [
+  "ln -s $(which python3) /usr/local/bin/python",
+  "pip3 install -U yt-dlp --break-system-packages",
+  "npm install --ignore-scripts"
+]
 
 [start]
 cmd = "node index.js"
