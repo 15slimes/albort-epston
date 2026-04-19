@@ -10,7 +10,8 @@ import {
   VoiceConnectionStatus,
   entersState,
 } from "@discordjs/voice";
-import ytDlp from "yt-dlp-exec";
+import { create } from "yt-dlp-exec";
+const ytDlp = create("/usr/local/bin/yt-dlp");
 
 import "dotenv/config";
 import { MusicQueue } from "./MusicQueue.js";
