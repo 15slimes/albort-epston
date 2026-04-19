@@ -9,7 +9,8 @@ import {
   NoSubscriberBehavior,
 } from "@discordjs/voice";
 
-import ytDlp from "yt-dlp-exec";
+import { create } from "yt-dlp-exec";
+const ytDlp = create("/usr/local/bin/yt-dlp");
 
 export class MusicQueue {
   constructor(guildId, connection, textChannel) {
