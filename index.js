@@ -80,7 +80,7 @@ client.on("interactionCreate", async (interaction) => {
 
       if (isPlaylist) {
         // Extract all entries from playlist
-        const ytdlpBin = "./yt-dlp.exe";
+        const ytdlpBin = "./yt-dlp";
         const { stdout } = await execFileAsync(ytdlpBin, [
           "--flat-playlist",
           "-J",
