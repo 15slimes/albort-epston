@@ -66,6 +66,7 @@ export class MusicQueue {
         "--no-playlist",
         "-o", "-",
         "--quiet",
+        "--cookies", "/app/cookies.txt",
         track.url,
       ]);
 
