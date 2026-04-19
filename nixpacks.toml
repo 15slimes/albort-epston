@@ -1,8 +1,12 @@
 [phases.setup]
-nixPkgs = ["nodejs_22", "ffmpeg", "python3", "python3Packages.pip"]
+nixPkgs = ["nodejs_22", "ffmpeg", "curl"]
 
 [phases.install]
-cmds = ["pip install -U yt-dlp --break-system-packages", "npm ci"]
+cmds = [
+  "curl -L https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp -o /usr/local/bin/yt-dlp",
+  "chmod +x /usr/local/bin/yt-dlp",
+  "npm ci"
+]
 
 [start]
 cmd = "node index.js"
