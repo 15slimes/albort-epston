@@ -10,6 +10,7 @@ import {
   VoiceConnectionStatus,
   entersState,
 } from "@discordjs/voice";
+import ytDlp from "yt-dlp-exec";
 
 import "dotenv/config";
 import { MusicQueue } from "./MusicQueue.js";
@@ -74,24 +75,15 @@ client.on("interactionCreate", async (interaction) => {
     let tracks = [];
 
     try {
-      const { execFile } = await import("child_process");
-      const { promisify } = await import("util");
-      const execFileAsync = promisify(execFile);
-
       if (isPlaylist) {
-        // Extract all entries from playlist
-        const ytdlpBin = "yt-dlp";
-        const { stdout } = await execFileAsync(ytdlpBin, [
-          "--flat-playlist",
-          "-J",
-          "--no-warnings",
-          "--cookies", "/app/cookies.txt",
-          query,
-        ]);
-        const data = JSON.parse(stdout);
+        const data = await ytDlp(query, {
+          flatPlaylist: true,
+          dumpSingleJson: true,
+          noWarnings: true,
+          cookies: "/app/cookies.txt",
+        });
         const entries = data.entries ?? [];
         if (!entries.length) return interaction.editReply("Playlist appears to be empty or private.");
-
         tracks = entries.map((e) => ({
           title: e.title ?? e.id,
           url: e.url ?? `https://www.youtube.com/watch?v=${e.id}`,
@@ -99,19 +91,14 @@ client.on("interactionCreate", async (interaction) => {
           requestedBy: interaction.user.toString(),
         }));
       } else {
-        // Single video — URL or search query
-        const ytdlpBin = "yt-dlp";
-        const args = isUrl
-          ? ["-J", "--no-warnings", "--no-playlist", "--cookies", "/app/cookies.txt", query]
-          : ["-J", "--no-warnings", "--cookies", "/app/cookies.txt", `ytsearch1:${query}`];
-
-        const { stdout } = await execFileAsync(ytdlpBin, args);
-        const data = JSON.parse(stdout);
-
-        // ytsearch wraps result in entries array
+        const data = await ytDlp(isUrl ? query : `ytsearch1:${query}`, {
+          dumpSingleJson: true,
+          noWarnings: true,
+          noPlaylist: true,
+          cookies: "/app/cookies.txt",
+        });
         const v = data.entries ? data.entries[0] : data;
         if (!v) return interaction.editReply("No results found.");
-
         tracks = [{
           title: v.title,
           url: v.webpage_url ?? v.url,
