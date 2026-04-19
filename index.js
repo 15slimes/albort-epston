@@ -194,7 +194,7 @@ client.on("interactionCreate", async (interaction) => {
     const q = requireQueue(interaction);
     if (!q) return;
     const ok = q.resume();
-    return interaction.reply(ok ? "Resumed." : "❌ Could not resume.");
+    return interaction.reply(ok ? "Resumed." : "Could not resume.");
   }
 
   // ── /nowplaying ────────────────────────────────────────────────────────
@@ -270,7 +270,7 @@ client.on("interactionCreate", async (interaction) => {
     if (!q) return;
     const pos = interaction.options.getInteger("position") - 1;
     if (pos < 0 || pos >= q.tracks.length) {
-      return interaction.reply({ content: "❌ Invalid position.", ephemeral: true });
+      return interaction.reply({ content: "Invalid position.", ephemeral: true });
     }
     const [removed] = q.tracks.splice(pos, 1);
     return interaction.reply(`Removed **${removed.title}** from the queue.`);
