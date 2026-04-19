@@ -61,7 +61,7 @@ export class MusicQueue {
 
     try {
       const { spawn } = await import("child_process");
-      const ytdlp = spawn("./yt-dlp", [
+      const ytdlp = spawn("yt-dlp", [
         "-f", "bestaudio",
         "--no-playlist",
         "-o", "-",
