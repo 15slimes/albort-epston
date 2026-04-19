@@ -80,7 +80,7 @@ client.on("interactionCreate", async (interaction) => {
 
       if (isPlaylist) {
         // Extract all entries from playlist
-        const ytdlpBin = "./yt-dlp";
+        const ytdlpBin = "yt-dlp";
         const { stdout } = await execFileAsync(ytdlpBin, [
           "--flat-playlist",
           "-J",
@@ -99,7 +99,7 @@ client.on("interactionCreate", async (interaction) => {
         }));
       } else {
         // Single video — URL or search query
-        const ytdlpBin = "./yt-dlp";
+        const ytdlpBin = "yt-dlp";
         const args = isUrl
           ? ["-J", "--no-warnings", "--no-playlist", query]
           : ["-J", "--no-warnings", `ytsearch1:${query}`];
