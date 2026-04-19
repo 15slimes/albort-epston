@@ -62,20 +62,18 @@ export class MusicQueue {
     this.current = track;
 
     try {
-      const { spawn } = await import("child_process");
-      const ytdlp = spawn("yt-dlp", [
-        "-f", "bestaudio",
-        "--no-playlist",
-        "-o", "-",
-        "--quiet",
-        "--cookies", "/app/cookies.txt",
-        track.url,
-      ]);
+      const ytdlp = ytDlp.raw(track.url, {
+      format: "bestaudio",
+      noPlaylist: true,
+      output: "-",
+      quiet: true,
+      cookies: "/app/cookies.txt",
+    });
 
-      const resource = createAudioResource(ytdlp.stdout, {
-        inputType: StreamType.Arbitrary,
-        inlineVolume: true,
-      });
+    const resource = createAudioResource(ytdlp.stdout, {
+      inputType: StreamType.Arbitrary,
+      inlineVolume: true,
+    });
       resource.volume?.setVolume(this.volume);
       this.player.play(resource);
       this.textChannel.send(`Now playing: **${track.title}**`);
