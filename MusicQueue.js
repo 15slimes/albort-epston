@@ -9,6 +9,8 @@ import {
   NoSubscriberBehavior,
 } from "@discordjs/voice";
 
+import ytDlp from "yt-dlp-exec";
+
 export class MusicQueue {
   constructor(guildId, connection, textChannel) {
     this.guildId = guildId;
