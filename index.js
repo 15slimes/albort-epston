@@ -99,7 +99,7 @@ client.on("interactionCreate", async (interaction) => {
         }));
       } else {
         // Single video — URL or search query
-        const ytdlpBin = "./yt-dlp.exe";
+        const ytdlpBin = "./yt-dlp";
         const args = isUrl
           ? ["-J", "--no-warnings", "--no-playlist", query]
           : ["-J", "--no-warnings", `ytsearch1:${query}`];
