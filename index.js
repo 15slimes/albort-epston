@@ -85,6 +85,7 @@ client.on("interactionCreate", async (interaction) => {
           "--flat-playlist",
           "-J",
           "--no-warnings",
+          "--cookies", "/app/cookies.txt",
           query,
         ]);
         const data = JSON.parse(stdout);
@@ -101,8 +102,8 @@ client.on("interactionCreate", async (interaction) => {
         // Single video — URL or search query
         const ytdlpBin = "yt-dlp";
         const args = isUrl
-          ? ["-J", "--no-warnings", "--no-playlist", query]
-          : ["-J", "--no-warnings", `ytsearch1:${query}`];
+          ? ["-J", "--no-warnings", "--no-playlist", "--cookies", "/app/cookies.txt", query]
+          : ["-J", "--no-warnings", "--cookies", "/app/cookies.txt", `ytsearch1:${query}`];
 
         const { stdout } = await execFileAsync(ytdlpBin, args);
         const data = JSON.parse(stdout);
